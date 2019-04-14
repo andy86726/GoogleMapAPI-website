@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>新竹市腳踏車地點</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>新竹腳踏車地理位置</h1>
+    <div id="map"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function initMap() {
+            var uluru = { lat: 24.8016170, lng: 120.971574 };
+            var map = new google.maps.Map(
+                document.getElementById('map'), { zoom: 15, center: uluru });
+                $.get("http://opendata.hccg.gov.tw/dataset/1f334249-9b55-4c42-aec1-5a8a8b5e07ca/resource/4d5edb22-a15e-4097-8635-8e32f7db601a/download/20180212143756340.json", null,
+                function (result, textStatus, jqXHR) {
+                    for (var item of result) {
+                        
+                        var marker = new google.maps.Marker({
+                            position: {
+                                lat: parseFloat(item.緯度),
+                                lng: parseFloat(item.經度)
+                            },
+                            map: map,
+                            icon: "http://icons.iconarchive.com/icons/aha-soft/transport/48/bike-icon.png",
+                            title: item.站點名稱
+                        });
+                    }
+                },
+                "json"
+            );
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1Zp0wBPQ7cbLFzUaw_5rOvz3BO70X04k&callback=initMap">
+        </script>
+</body>
+
+</html>
